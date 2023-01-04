@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "619650002780",
+    "project_id": "art-community-fd6fc",
+    "storage_bucket": "art-community-fd6fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619650002780:android:ffa1b4cd3e47f81f96db99",
+        "android_client_info": {
+          "package_name": "com.example.art_community"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619650002780-it1aos5v9uvaapnur44cma64r8dt9jt6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXEqVPcdjmm4uPFtF308K2M87ZXVheC2A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619650002780-it1aos5v9uvaapnur44cma64r8dt9jt6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
