@@ -7,7 +7,9 @@ class LoginConstructor extends StatefulWidget {
       {required this.iconImage,
       required this.iconColor,
       required this.ontap,
-      super.key});
+      required this.success,
+      super.key, required RoundedLoadingButtonController controller});
+  Color success;
   String iconImage;
   Color iconColor;
   VoidCallback ontap;
@@ -33,7 +35,7 @@ class _LoginConstructorState extends State<LoginConstructor> {
         elevation: 0,
         onPressed: widget.ontap,
         controller: googleController,
-        successColor: Constants.redColor,
+        successColor: widget.success,
         child: Image.asset(
           widget.iconImage,
         ),

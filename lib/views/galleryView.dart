@@ -5,9 +5,6 @@ class GalleryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomNavigationBar:
-          BottomNavigationBar(items: const <BottomNavigationBarItem>[]),
-    );
+    return Container();
   }
 }

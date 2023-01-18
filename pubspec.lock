@@ -72,7 +72,7 @@ packages:
     source: hosted
     version: "1.16.0"
   connectivity_plus:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: connectivity_plus
       url: "https://pub.dartlang.org"
@@ -175,7 +175,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_facebook_auth:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_facebook_auth
       url: "https://pub.dartlang.org"
@@ -195,15 +195,8 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.1"
-  flutter_facebook_login:
-    dependency: "direct dev"
-    description:
-      name: flutter_facebook_login
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "3.0.0"
   flutter_lints:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: flutter_lints
       url: "https://pub.dartlang.org"
@@ -297,7 +290,7 @@ packages:
     source: hosted
     version: "0.10.2"
   http:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: http
       url: "https://pub.dartlang.org"
@@ -437,7 +430,7 @@ packages:
     source: hosted
     version: "3.2.1"
   rounded_loading_button:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: rounded_loading_button
       url: "https://pub.dartlang.org"
@@ -451,7 +444,7 @@ packages:
     source: hosted
     version: "0.27.7"
   shared_preferences:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: shared_preferences
       url: "https://pub.dartlang.org"

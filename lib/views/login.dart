@@ -28,6 +28,8 @@ class _LoginViewState extends State<LoginView> {
       RoundedLoadingButtonController();
   final RoundedLoadingButtonController appleController =
       RoundedLoadingButtonController();
+  final RoundedLoadingButtonController twitterController =
+      RoundedLoadingButtonController();
   //sign user in method
   void signUserIn() {}
   @override
@@ -57,24 +59,38 @@ class _LoginViewState extends State<LoginView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
+                      //FACEBOOK
                       LoginConstructor(
+                        controller: facebookController,
+                        success: Colors.blue,
                         iconImage: ('assets/images/facebook.png'),
                         iconColor: Colors.blue,
-                        ontap: () {},
+                        ontap: () {
+                          handleFacebookAuth();
+                        },
                       ),
+                      //APPLE
                       LoginConstructor(
+                        controller: appleController,
+                        success: Constants.veryDarkColor,
                         iconImage: ('assets/images/apple.png'),
                         iconColor: Constants.primaryWhiteColor,
                         ontap: () {},
                       ),
+                      //GOOGLE
                       LoginConstructor(
+                        controller: googleController,
+                        success: Constants.redColor,
                         iconImage: ('assets/images/google.png'),
                         iconColor: Constants.primaryWhiteColor,
                         ontap: () {
                           handleGoogleSignIn();
                         },
                       ),
+                      //TWITTER
                       LoginConstructor(
+                        controller: twitterController,
+                        success: Colors.blue,
                         iconImage: ('assets/images/twitter.png'),
                         iconColor: Colors.blue,
                         ontap: () {},
@@ -134,26 +150,28 @@ class _LoginViewState extends State<LoginView> {
                         controller: _passwordController,
                         obscureText: _isObsecure,
                         decoration: InputDecoration(
-                            focusedBorder: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Constants.veryDarkColor),
-                              borderRadius: BorderRadius.circular(15),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide:
+                                BorderSide(color: Constants.veryDarkColor),
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isObsecure = !_isObsecure;
+                              });
+                            },
+                            icon: Icon(
+                              _isObsecure
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Constants.darkColor,
                             ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            suffixIcon: IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    _isObsecure = !_isObsecure;
-                                  });
-                                },
-                                icon: Icon(
-                                  _isObsecure
-                                      ? Icons.visibility
-                                      : Icons.visibility_off,
-                                  color: Constants.darkColor,
-                                ))),
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -161,30 +179,31 @@ class _LoginViewState extends State<LoginView> {
                   SizedBox(
                     width: double.infinity,
                     child: TextButton(
-                        style: ButtonStyle(
-                          shape: MaterialStateProperty.all(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
+                      style: ButtonStyle(
+                        shape: MaterialStateProperty.all(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          backgroundColor:
-                              MaterialStateProperty.all(Constants.redColor),
                         ),
-                        onPressed: () async {
-                          final email = _emailController.text;
-                          final password = _passwordController.text;
-                          // await FirebaseAuth
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Text(
-                            'Sign In',
-                            style: TextStyle(
-                              color: Constants.primaryWhiteColor,
-                              fontSize: 18,
-                            ),
+                        backgroundColor:
+                            MaterialStateProperty.all(Constants.redColor),
+                      ),
+                      onPressed: () async {
+                        final email = _emailController.text;
+                        final password = _passwordController.text;
+                        // await FirebaseAuth
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Text(
+                          'Sign In',
+                          style: TextStyle(
+                            color: Constants.primaryWhiteColor,
+                            fontSize: 18,
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ),
                   SizedBox(height: 20),
                   TextButton(
@@ -226,12 +245,62 @@ class _LoginViewState extends State<LoginView> {
             (value) async {
               if (value == true) {
                 // user exists
-
+                await sp.getUserDataFromFirestore(sp.uid).then((value) => sp
+                    .saveDataToSharedPreferences()
+                    .then((value) => sp.setSignIn().then((value) {
+                          googleController.success();
+                          handleAfterSignIn();
+                        })));
               } else {
                 //user does not exist
                 sp.saveDataToFirestore().then(
                     (value) => sp.saveDataToSharedPreferences().then((value) {
                           googleController.success();
+                          handleAfterSignIn();
+                        }));
+              }
+            },
+          );
+        }
+      });
+    }
+  }
+
+  //handling facebookAuth
+  Future handleFacebookAuth() async {
+    final sp = context.read<SignInProvider>();
+    final ip = context.read<InternetProvider>();
+    await ip.checkInternetConnection();
+
+    if (ip.hasInternet == false) {
+      openSnackbar(
+        context,
+        "Check your internet connection",
+        Colors.red,
+      );
+      facebookController.reset();
+    } else {
+      await sp.signInWithFacebook().then((value) {
+        if (sp.hasError == true) {
+          openSnackbar(context, sp.errorCode.toString(), Colors.red);
+          facebookController.reset();
+        } else {
+          // checking whether user exists or not
+          sp.checkUserExists().then(
+            (value) async {
+              if (value == true) {
+                // user exists
+                await sp.getUserDataFromFirestore(sp.uid).then((value) => sp
+                    .saveDataToSharedPreferences()
+                    .then((value) => sp.setSignIn().then((value) {
+                          facebookController.success();
+                          handleAfterSignIn();
+                        })));
+              } else {
+                //user does not exist
+                sp.saveDataToFirestore().then(
+                    (value) => sp.saveDataToSharedPreferences().then((value) {
+                          facebookController.success();
                           handleAfterSignIn();
                         }));
               }

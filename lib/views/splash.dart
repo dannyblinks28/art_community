@@ -22,8 +22,8 @@ class _SplashState extends State<Splash> {
     super.initState();
     Timer(const Duration(milliseconds: 2500), () {
       sp.isSignedIn == false
-          ? nextScreen(context, loginRoute)
-          : nextScreen(context, GalleryView());
+          ? nextScreen(context, const LoginView())
+          : nextScreen(context, const GalleryView());
     });
   }
 

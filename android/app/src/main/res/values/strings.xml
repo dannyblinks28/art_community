@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resource>
+    <string name="app_name">art_community</string>    
+    <string name="facebook_app_id">725763615533839</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">0fb14edf949af36d34a2c4a3d2cd2ebc</string>
+
+</resource>
